@@ -14,4 +14,8 @@ class BootController extends Controller
     {
         return view('boot/index');
     }
+    public function fileHandle()
+    {
+        return view('boot/file');
+    }
 }

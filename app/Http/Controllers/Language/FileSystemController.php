@@ -9,10 +9,14 @@ namespace App\Http\Controllers\Language;
 
 use App\Http\Controllers\Controller;
 
-class FileSystem extends Controller
+class FileSystemController extends Controller
 {
     public function index()
     {
         return view('language/filesystem/index');
+    }
+    public function upload()
+    {
+        var_dump($_FILES);
     }
 }

@@ -19,11 +19,13 @@ Route::any('/test','IndexController@test');
 Route::any('excel', 'ToolsController@excelExample');
 Route::any('dts/canbuy', 'TestController@dts_canbuy');
 Route::any('boot', 'BootController@index');
+Route::any('boot/file', 'BootController@fileHandle');
 Route::any('nginx', 'NginxController@index');
 Route::any('nginx/fastcgi', 'NginxController@fastcgi');
 Route::any('nginx/location', 'NginxController@location');
 Route::any('nginx/xdebug', 'NginxController@xdebug');
 Route::any('source', 'SourceCodeController@index');
 Route::any('source/memoey', 'SourceCodeController@memoey');
-Route::any('file/index', 'FileSystem@index');
+Route::any('file/index', 'FileSystemController@index');
+Route::any('file/upload', 'IndexController@upload');
 

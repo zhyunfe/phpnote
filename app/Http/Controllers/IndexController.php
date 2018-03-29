@@ -7,6 +7,7 @@
  */
 namespace App\Http\Controllers;
 use  App\Http\Controllers\BlockChain\DappController;
+use App\Http\Controllers\Language\FileSystemController;
 
 class IndexController extends Controller
 {
@@ -39,5 +40,9 @@ class IndexController extends Controller
     {
         $service = new \Yar_Server(new YarController());
         $service->handle();
+    }
+    public function upload(FileSystemController $file)
+    {
+        $file->upload();
     }
 }
