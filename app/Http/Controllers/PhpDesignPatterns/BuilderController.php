@@ -9,7 +9,7 @@
  * 使用场景和效果
  *
  * 使用场景：
- * 1、需要声场的产品对象有复杂的内部结构
+ * 1、需要生成的产品对象有复杂的内部结构
  * 2、需要生成的产品对象的属性相互依赖，建造者模式可以强迫生成顺序
  * 3、在对象创建过程中会使用到系统的一些其他对象，这些对象在产品对象的创建过程中不易得到
  *
@@ -77,5 +77,3 @@ class ProductBuilder
 $builder = new ProductBuilder($productConfigs);
 $builder->build();
 $product = $builder->getProduct();
-$now =  date('Y-m-d H:i:s');
-echo md5('demoer30.002018-03-28 00:00:002028-03-29 23:59:59UPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THBUPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THBUPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THBUPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THBUPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THBUPAY_NEW_TRUEMONEY_NEWEXCLUSIVE_THB50.0090.00100.00150.00200.00300.00500.00');
