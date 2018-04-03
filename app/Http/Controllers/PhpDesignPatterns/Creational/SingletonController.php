@@ -31,7 +31,7 @@ class Singleton
 {
     private static $_instance = null;
 
-    public function __construct()
+    private function __construct()
     {
 
     }
