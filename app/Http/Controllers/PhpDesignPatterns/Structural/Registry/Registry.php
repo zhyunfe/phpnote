@@ -4,13 +4,7 @@
  * Created by PhpStorm.
  * User: zhyunfe
  * Date: 2018/4/3
- * Time: 上午10:30
- * 注册模式
- * 目的是能够存储在应用程序中经常使用的对象实例，通常会使用只有静态方法的抽象类来实现(或者单例模式)
- * 需要注意的是这里可能会引入全局的状态，我们需要使用依赖注入来避免它
- *
- * 例子：Zend框架Zend_Registry 实现了整个应用程序的logger对象和前端控制器等
- *      Yii框架 具有全部应用程序组件，例如CWebUser,CUrlManager
+ * Time: 下午3:50
  */
 abstract class Registry
 {
@@ -48,18 +42,5 @@ abstract class Registry
             throw new Exception('Invalid key given');
         }
         return self::$storedValues[$key];
-    }
-}
-
-class Test
-{
-    public function testSetAndGetLogger()
-    {
-        $key = Registry::LOGGER;
-        $logger = new stdClass();
-
-        Registry::set($key, $logger);
-        $storedLogger = Registry::get($key);
-        return $storedLogger;
     }
 }
