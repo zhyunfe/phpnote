@@ -3,10 +3,10 @@
 在软件工程中，创建型设计模式是处理对象创建机制的设计模式，视图以释放的方式来创建对象，对象的基本形式可能会带来设计问题，亦或增加了设计的复杂度，创建型设计模式通过控制这个对象的创建方式来解决问题
 
 - 工厂方法模式 Factory Method
-- 抽象工厂模式 Abstract Factory
+- 抽象工厂模式 Abstract Factory   在不指定具体类的情况下创建一系列相关或依赖对象
 - 简单工厂模式 Simple Factory
 - 静态工厂模式 Static Factory
-- 建造者模式 Builder
+- 建造者模式 Builder 创建一个复杂对象的一部分接口
 - 单例模式 Singleton
 - 多例模式 Mulition
 - 对象池模式 Pool
