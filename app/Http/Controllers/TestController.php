@@ -53,4 +53,16 @@ class TestController extends Controller
         }
         return $arr;
     }
+
+    public function object()
+    {
+        $arr = array();
+        for($i = 0; $i < 3; $i++) {
+            $obj = new BootController();
+            $arr[] = $obj;
+        }
+        foreach ($arr as $item) {
+            var_dump( $item instanceof BootController);
+        }
+    }
 }

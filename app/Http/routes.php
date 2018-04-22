@@ -16,8 +16,9 @@ Route::any('/phpinfo','IndexController@getPhpinfo');
 Route::any('/yar','IndexController@yar');
 
 Route::any('/test','IndexController@test');
-Route::any('excel', 'ToolsController@excelExample');
+Route::any('/excel', 'ToolsController@excelExample');
 Route::any('dts/canbuy', 'TestController@dts_canbuy');
+Route::any('/test/obj','TestController@object');
 Route::any('boot', 'BootController@index');
 Route::any('boot/file', 'BootController@fileHandle');
 Route::any('nginx', 'NginxController@index');

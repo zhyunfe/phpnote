@@ -8,6 +8,7 @@
 namespace App\Http\Controllers;
 use  App\Http\Controllers\BlockChain\DappController;
 use App\Http\Controllers\Language\FileSystemController;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class IndexController extends Controller
 {
@@ -26,7 +27,37 @@ class IndexController extends Controller
     }
     public function getPhpinfo()
     {
-        echo phpinfo();
+        $redis = new \Redis();
+        var_dump($redis);
+        $config = array(
+            1 => array( //appstore
+                'CNT' => 17,
+                'AMOUNT' => 40000
+            ),
+            2 => array( //google play
+                'CNT' => 16,
+                'AMOUNT' => 40000
+            ),
+            11 => array( //cosmopay
+                'CNT' => 8,
+                'AMOUNT' => 12000
+            ),
+            12 => array( //fb
+                'CNT' => 5,
+                'AMOUNT' => 1500
+            ),
+        );
+        $queryStr = '2|8|20000';
+        $queryArr = explode('|', $queryStr);
+        var_dump($queryArr);
+        if (strlen($queryStr) && count($queryArr) % 3 === 0) {
+            for($i = 0; $i < count($queryArr); $i = $i + 3) {
+                echo $i;
+                $config[$queryArr[$i]]['CNT'] = $queryArr[$i+1];
+                $config[$queryArr[$i]]['AMOUNT'] = $queryArr[$i+2];
+            }
+        }
+        var_dump($config);
     }
     public function test()
     {
@@ -44,5 +75,11 @@ class IndexController extends Controller
     public function upload(FileSystemController $file)
     {
         $file->upload();
+    }
+
+    public function excel()
+    {
+        $excel = new Spreadsheet();
+
     }
 }

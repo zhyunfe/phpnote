@@ -54,14 +54,9 @@ class RPC {
 
     }
 }
-$rpc = new RPC('http://my.gm99.com','','PaymentApi');
+$rpc = new RPC('http://my.gm99.com','','Payment');
 $result0 = $rpc->test();
-//$query = new RPC('http://my.gm99.com', '', 'PaymentQuery');
-//$result1 = $query->getSuccessfulPaymentByOrderID(123);
-//
-//$ujoy = new RPC('http://my.ujoy.com','', 'SerialCache');
-//$result2 = $ujoy->set('123', '123');
-//$query = new RPC('http://my.ujoy.com', '', 'PaymentQuery');
-//$result3 = $query->test();
-//var_dump($result0, $result1, $result2, $result3);
-var_dump($result0);
+$rpc = new RPC('http://my.gm99.com','','PaymentApi');
+$result1 = $rpc->test();
+
+var_dump($result1);
