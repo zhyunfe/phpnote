@@ -11,12 +11,10 @@
 |
 */
 
-Route::any('/','IndexController@index');
 Route::any('/phpinfo','IndexController@getPhpinfo');
 Route::any('/yar','IndexController@yar');
 
 Route::any('/test','IndexController@test');
-Route::any('/excel', 'ToolsController@excelExample');
 Route::any('dts/canbuy', 'TestController@dts_canbuy');
 Route::any('/test/obj','TestController@object');
 Route::any('boot', 'BootController@index');
@@ -29,4 +27,3 @@ Route::any('source', 'SourceCodeController@index');
 Route::any('source/memoey', 'SourceCodeController@memoey');
 Route::any('file/index', 'FileSystemController@index');
 Route::any('file/upload', 'IndexController@upload');
-

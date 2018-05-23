@@ -54,9 +54,9 @@ class RPC {
 
     }
 }
-$rpc = new RPC('http://my.gm99.com','','Payment');
-$result0 = $rpc->test();
-$rpc = new RPC('http://my.gm99.com','','PaymentApi');
-$result1 = $rpc->test();
+$rpc = new RPC('http://my.37kr.com','','S');
+$result0 = $rpc->getUser('gm99test1');
+//$rpc = new RPC('http://my.gm99.com','','PaymentApi');
+//$result1 = $rpc->test();
 
-var_dump($result1);
+var_dump($result0);
