@@ -27,3 +27,4 @@ Route::any('source', 'SourceCodeController@index');
 Route::any('source/memoey', 'SourceCodeController@memoey');
 Route::any('file/index', 'FileSystemController@index');
 Route::any('file/upload', 'IndexController@upload');
+Route::any('/excel', 'ToolsController@excelExample');

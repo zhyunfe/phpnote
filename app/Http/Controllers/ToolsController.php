@@ -14,9 +14,10 @@ class ToolsController extends Controller
 {
     public function excelExample()
     {
-        $inputFileName = PUBLIC_URL . '/3.xls';
+        $inputFileName = PUBLIC_URL . '/file15.xls';
         $reader = IOFactory::createReader('Xls');
         $office = $reader->load($inputFileName);
+        var_dump($office);die();
         $currentSheet = $office->getSheet(0);
         $allRow = $currentSheet->getHighestRow();
         $allColumn = $currentSheet->getHighestColumn();
@@ -29,6 +30,7 @@ class ToolsController extends Controller
 //                $qyjarr[] = trim($cell);
             }
         };
+        die();
 //        var_dump($qyjarr);die();
         $rows1 = array();
         $reader2 = IOFactory::createReader('Xlsx');
