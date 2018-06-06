@@ -17,6 +17,7 @@ Route::any('/yar','IndexController@yar');
 
 Route::any('/test','IndexController@test');
 Route::any('excel', 'ToolsController@excelExample');
+Route::any('haxi', 'ToolsController@haxi');
 Route::any('dts/canbuy', 'TestController@dts_canbuy');
 Route::any('boot', 'BootController@index');
 Route::any('boot/file', 'BootController@fileHandle');
