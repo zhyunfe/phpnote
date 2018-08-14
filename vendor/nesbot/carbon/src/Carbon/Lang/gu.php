@@ -10,6 +10,7 @@
  */
 
 return array(
+<<<<<<< HEAD
     'year' => '1 વર્ષ|:count વર્ષો',
     'y' => '1વર્ષ|:countવર્ષો',
     'month' => '1 મહિનો|:count મહિના',
@@ -24,6 +25,22 @@ return array(
     'min' => '1મિ.|:countમિ.',
     'second' => '1 સેકેન્ડ|:count સેકેન્ડ',
     's' => '1સે.|:countસે.',
+=======
+    'year' => ':count વર્ષ|:count વર્ષો',
+    'y' => ':countવર્ષ|:countવર્ષો',
+    'month' => ':count મહિનો|:count મહિના',
+    'm' => ':countમહિનો|:countમહિના',
+    'week' => ':count અઠવાડિયું|:count અઠવાડિયા',
+    'w' => ':countઅઠ.|:countઅઠ.',
+    'day' => ':count દિવસ|:count દિવસો',
+    'd' => ':countદિ.|:countદિ.',
+    'hour' => ':count કલાક|:count કલાકો',
+    'h' => ':countક.|:countક.',
+    'minute' => ':count મિનિટ|:count મિનિટ',
+    'min' => ':countમિ.|:countમિ.',
+    'second' => ':count સેકેન્ડ|:count સેકેન્ડ',
+    's' => ':countસે.|:countસે.',
+>>>>>>> phpoffice
     'ago' => ':time પહેલા',
     'from_now' => ':time અત્યારથી',
     'after' => ':time પછી',

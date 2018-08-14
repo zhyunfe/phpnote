@@ -38,11 +38,11 @@ class UploadHandler extends \Illuminate\Routing\Controller
         }
 
         $this->receiver->uploadExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        //判断文件大小
+
         if ( $error = $this->filterBySize($fileSize) ) {
             return Responser::reportError($error);
         }
-        //判断后缀名
+
         if ( $error = $this->filterByExt($this->receiver->uploadExt) ) {
             return Responser::reportError($error);
         }

@@ -40,7 +40,7 @@ return array(
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
     'Cron\\' => array($vendorDir . '/mtdowling/cron-expression/src/Cron'),
     'ClassPreloader\\' => array($vendorDir . '/classpreloader/classpreloader/src'),
-    'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'App\\' => array($baseDir . '/app'),
     'AetherUpload\\' => array($vendorDir . '/peinhu/aetherupload-laravel/src'),
+    '' => array($vendorDir . '/nesbot/carbon/src'),
 );

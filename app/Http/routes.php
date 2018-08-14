@@ -29,4 +29,8 @@ Route::any('source', 'SourceCodeController@index');
 Route::any('source/memoey', 'SourceCodeController@memoey');
 Route::any('file/index', 'FileSystemController@index');
 Route::any('file/upload', 'IndexController@upload');
+Route::any('office', 'OfficeController@index');
+Route::any('office/create', 'OfficeController@create');
+Route::any('office/setSheet', 'OfficeController@setSheet');
+Route::any('office/getExcel', 'OfficeController@getExcel');
 

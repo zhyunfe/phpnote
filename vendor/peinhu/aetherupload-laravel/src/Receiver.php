@@ -5,7 +5,6 @@ namespace AetherUpload;
 class Receiver
 {
     public $uploadHead;
-    //部分文件路径
     public $uploadPartialFile;
     public $chunkIndex;
     public $chunkTotalCount;
@@ -25,7 +24,6 @@ class Receiver
         $this->uploadHead = $this->getUploadHeadPath();
 
         if ( ! (@touch($this->uploadPartialFile) && @touch($this->uploadHead)) ) {
-            //翻译消息
             return trans('aetherupload::messages.create_file_fail');
         }
 
@@ -90,10 +88,6 @@ class Receiver
         return md5_file($filePath);
     }
 
-    /**
-     * 临时文件名：时间戳+文件名
-     * @return string
-     */
     protected function generateTempFileName()
     {
         return time() . mt_rand(100, 999);

@@ -5,21 +5,13 @@ namespace AetherUpload;
 class ConfigMapper
 {
     private static $_instance = null;
-    //上传路径
     private $UPLOAD_PATH;
-    //文件路径
     private $FILE_DIR;
-    //分片文件路径
     private $FILE_SUB_DIR;
-    //
     private $HEAD_DIR;
-    //切片大小
     private $CHUNK_SIZE;
-    //文件最大限制
     private $FILE_MAXSIZE;
-    //文件后缀
     private $FILE_EXTENSIONS;
-
     private $MIDDLEWARE_PREPROCESS;
     private $MIDDLEWARE_SAVE_CHUNK;
     private $MIDDLEWARE_DISPLAY;
