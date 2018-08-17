@@ -9,7 +9,10 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Writer\Xls\BIFFwriter;
+ini_set('memory_limit', '2G');
+set_time_limit(0);
 
 class OfficeController extends Controller
 {
@@ -35,33 +38,121 @@ class OfficeController extends Controller
 
     public function getExcel()
     {
-        $filename = $this->storage . 'demo1.xls';
+        $filename = $this->storage . 'qyj.xlsx';
         //全部加载文件
         $obj = IOFactory::load($filename);
-        //使用迭代器的方式读取数据
-        foreach ($obj->getWorksheetIterator() as $sheet) {
-            //循环取sheet
-            foreach ($sheet->getRowIterator() as $row) {
-                //设置从第2行读取
-                if ($row->getRowIndex() < 2) {
-                    continue;
-                }
-                foreach ($row->getCellIterator() as $cell) {
-                    $data = $cell->getValue() . PHP_EOL;
-                    echo $data;
-                }
-                echo "<br/>";
-            }
-            echo "<br/>";
-        }
-        //全量读取小量数据可以使用该方法
-//        $sheetCount = $obj->getSheetCount();
-//        for($i = 0; $i < $sheetCount; $i++) {
-//           $data = $obj->getSheet($i)->toArray();
-//            var_dump($data);
+        $obj2 = IOFactory::load($this->storage . 'qyj0725.xlsx');
+//        //使用迭代器的方式读取数据
+//        foreach ($obj->getWorksheetIterator() as $sheet) {
+//            //循环取sheet
+//            foreach ($sheet->getRowIterator() as $row) {
+//                //设置从第2行读取
+//                if ($row->getRowIndex() < 2) {
+//                    continue;
+//                }
+//                foreach ($row->getCellIterator() as $cell) {
+//                    $data = $cell->getValue() . PHP_EOL;
+//                    echo $data;
+//                }
+//                echo "<br/>";
+//            }
+//            echo "<br/>";
 //        }
+        //全量读取小量数据可以使用该方法
+        $sheetCount = $obj->getSheetCount();
+        $data = array();
+        for($i = 0; $i < $sheetCount; $i++) {
+           $data[$i] = $obj->getSheet($i)->toArray();
+        }
+        $cporder = array();
+        $order = array();
+        foreach ($data as $key => $value) {
 
+            foreach ($value as $v) {
+                if ($key == 0) {
+                    $cporder[] = trim($v[1]);
+                } else {
+                    $order[] = trim($v[1]);
+                }
+            }
+        }
+
+        $sheetCount2 = $obj2->getSheetCount();
+        $data2 = array();
+        for ($i = 0; $i < $sheetCount2; $i++) {
+            $data2[$i] = $obj2->getSheet($i)->toArray();
+        }
+        $j = $data2[0];
+        unset($j[0]);
+        foreach ($j as $key => $value) {
+            foreach ($cporder as $v) {
+                if (in_array($v,$value)) {
+                    unset($j[$key]);
+                }
+            }
+            foreach ($order as $ov) {
+                if (in_array($ov, $value)) {
+                    unset($j[$key]);
+                }
+            }
+        }
+        $objSheet = $this->excel->getActiveSheet();
+        $objSheet->setTitle('我方存在开发不存在订单');
+        $objSheet->setCellValue('A1', '订单号')->setCellValue('B1', '厂商订单号')->setCellValue('C1', '支付时间')->setCellValue('D1', '台币金额');
+        $n = 2;
+        foreach ($j as $va) {
+            $objSheet->getStyle('A'.$n)->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_TEXT);
+            $objSheet->setCellValue('A' . $n, $va[0])->setCellValue('B'.$n , (string)$va[1])->setCellValue('C'.$n, $va[2])->setCellValue('D'.$n, $va[3]);
+
+            $n ++;
+        }
+        $this->writer->save($this->storage . 'diff.xlsx');
     }
+
+    public function spreadReader()
+    {
+        $file = $this->storage . 'big.xlsx';
+        $reader = new \SpreadsheetReader($file);
+        $sheet = $reader->Sheets();
+        if (!$sheet) {
+            echo 0;
+        }
+        $reader->ChangeSheet(0);
+        $i = 0;
+        foreach ($reader as $row) {
+            if ($i > 100) {
+                break;
+            }
+            echo $i . PHP_EOL;$i++;
+            var_dump($row);
+        }
+    }
+    public function tail($fp, $n, $base = 5)
+    {
+        assert($n > 0);
+        $pos = $n + 1;
+        $lines = array();
+        while (count($lines) <= $n)
+        {
+            try
+            {
+                fseek($fp, -$pos, SEEK_END);
+            }
+            catch (\Exception $e)
+            {
+                fseek($fp,0);
+                break;
+            }
+            $pos *= $base;
+            while (!feof($fp))
+            {
+                array_unshift($lines, fgets($fp));
+            }
+        }
+
+        return array_slice($lines, 0, $n);
+    }
+
 
     /**
      * 设置样式

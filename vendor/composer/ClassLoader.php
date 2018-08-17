@@ -57,7 +57,6 @@ class ClassLoader
     private $missingClasses = array();
     private $apcuPrefix;
 
-    //获取psr0规范前缀
     public function getPrefixes()
     {
         if (!empty($this->prefixesPsr0)) {
@@ -66,29 +65,28 @@ class ClassLoader
 
         return array();
     }
-    //获取psr4规范前缀
+
     public function getPrefixesPsr4()
     {
         return $this->prefixDirsPsr4;
     }
-    //获取psr0规范路径
+
     public function getFallbackDirs()
     {
         return $this->fallbackDirsPsr0;
     }
-    //获取psr4规范路径
+
     public function getFallbackDirsPsr4()
     {
         return $this->fallbackDirsPsr4;
     }
-    //获取类map
+
     public function getClassMap()
     {
         return $this->classMap;
     }
 
     /**
-     * 设置私有类名映射
      * @param array $classMap Class to filename map
      */
     public function addClassMap(array $classMap)
@@ -103,7 +101,7 @@ class ClassLoader
     /**
      * Registers a set of PSR-0 directories for a given prefix, either
      * appending or prepending to the ones previously set for this prefix.
-     * 为一个给定的前缀注册一组PSR-0目录，并且追加和预先设置为前缀的前缀
+     *
      * @param string       $prefix  The prefix
      * @param array|string $paths   The PSR-0 root directories
      * @param bool         $prepend Whether to prepend the directories
@@ -112,13 +110,11 @@ class ClassLoader
     {
         if (!$prefix) {
             if ($prepend) {
-                //如果$prefix为空且$prepend为true，添加psr0规范文件回调路径，旧的覆盖新的
                 $this->fallbackDirsPsr0 = array_merge(
                     (array) $paths,
                     $this->fallbackDirsPsr0
                 );
             } else {
-                //如果$prefix为空且$prepend为false，添加psr0规范文件回调路径，新的覆盖旧的
                 $this->fallbackDirsPsr0 = array_merge(
                     $this->fallbackDirsPsr0,
                     (array) $paths
@@ -127,22 +123,19 @@ class ClassLoader
 
             return;
         }
-        //有前缀
+
         $first = $prefix[0];
         if (!isset($this->prefixesPsr0[$first][$prefix])) {
-            //设置psr0规范文件前缀
             $this->prefixesPsr0[$first][$prefix] = (array) $paths;
 
             return;
         }
         if ($prepend) {
-            //如果$prepend为true，旧的psr0规范文件前缀覆盖新的
             $this->prefixesPsr0[$first][$prefix] = array_merge(
                 (array) $paths,
                 $this->prefixesPsr0[$first][$prefix]
             );
         } else {
-            //如果$prepend为false，新的psr0规范文件覆盖旧的
             $this->prefixesPsr0[$first][$prefix] = array_merge(
                 $this->prefixesPsr0[$first][$prefix],
                 (array) $paths
@@ -164,15 +157,12 @@ class ClassLoader
     {
         if (!$prefix) {
             // Register directories for the root namespace.
-            //为根命名空间注册路径
             if ($prepend) {
-                //如果$prefix为空且$prepend为true添加psr4规范文件回调路径，$this->fallbackDirsPsr4覆盖$paths
                 $this->fallbackDirsPsr4 = array_merge(
                     (array) $paths,
                     $this->fallbackDirsPsr4
                 );
             } else {
-                //如果$prefix为空且$prepend为true添加psr4规范文件回调路径，新的覆盖新的
                 $this->fallbackDirsPsr4 = array_merge(
                     $this->fallbackDirsPsr4,
                     (array) $paths
@@ -180,30 +170,20 @@ class ClassLoader
             }
         } elseif (!isset($this->prefixDirsPsr4[$prefix])) {
             // Register directories for a new namespace.
-            //如果尚未设置该psr4规范
-            //为新命名空间注册路径
-
-            //获取前缀长度
             $length = strlen($prefix);
             if ('\\' !== $prefix[$length - 1]) {
-                //如果前缀不是以\结束，抛出错误
                 throw new \InvalidArgumentException("A non-empty PSR-4 prefix must end with a namespace separator.");
             }
-            //获取psr4规范前缀长度
             $this->prefixLengthsPsr4[$prefix[0]][$prefix] = $length;
-            //获取psr4规范前缀路径
             $this->prefixDirsPsr4[$prefix] = (array) $paths;
         } elseif ($prepend) {
-            //如果已经设置了psr4规范
             // Prepend directories for an already registered namespace.
-            //为已经注册的命名空间预加载路径prefixDirsPsr4[$prefix]覆盖$paths
             $this->prefixDirsPsr4[$prefix] = array_merge(
                 (array) $paths,
                 $this->prefixDirsPsr4[$prefix]
             );
         } else {
             // Append directories for an already registered namespace.
-            //为已经注册的命名空间追加一个路径
             $this->prefixDirsPsr4[$prefix] = array_merge(
                 $this->prefixDirsPsr4[$prefix],
                 (array) $paths
@@ -354,41 +334,33 @@ class ClassLoader
      */
     public function findFile($class)
     {
-        // class map lookup查找类，找到返回路径
+        // class map lookup
         if (isset($this->classMap[$class])) {
             return $this->classMap[$class];
         }
-        //判断该类是否已经注册或者已经设置指定类为忽略类，如果是，返回false
         if ($this->classMapAuthoritative || isset($this->missingClasses[$class])) {
             return false;
         }
-        //如果指定类的apcu前缀不为空
         if (null !== $this->apcuPrefix) {
-            //对比指定类的apcu前缀和apcu缓存中的类的前缀，返回$hit success或者false
             $file = apcu_fetch($this->apcuPrefix.$class, $hit);
-            //如果一致，返回该文件
             if ($hit) {
                 return $file;
             }
         }
-        //寻找指定类扩展的类
+
         $file = $this->findFileWithExtension($class, '.php');
 
         // Search for Hack files if we are running on HHVM
-        //如果没有找打该文件并且在HHVM引擎上
         if (false === $file && defined('HHVM_VERSION')) {
-            //寻找以hh结尾的文件
             $file = $this->findFileWithExtension($class, '.hh');
         }
-        //如果指定类apcu前缀不为空
+
         if (null !== $this->apcuPrefix) {
-            //apcu缓存添加指定变量(指定类apcu前缀+指定类名)为指定类扩展
             apcu_add($this->apcuPrefix.$class, $file);
         }
-        //如果没有文件
+
         if (false === $file) {
             // Remember that this class does not exist.
-            //记录下来，这个类不存在
             $this->missingClasses[$class] = true;
         }
 
@@ -398,26 +370,17 @@ class ClassLoader
     private function findFileWithExtension($class, $ext)
     {
         // PSR-4 lookup
-        // 替换\为/
         $logicalPathPsr4 = strtr($class, '\\', DIRECTORY_SEPARATOR) . $ext;
-        //找到类前缀
-        $first = $class[0];
-        //判断是不是符合psr4规范的类
-        if (isset($this->prefixLengthsPsr4[$first])) {
-            //获取类路径
-            $subPath = $class;
-            //当渠道有\的类路径
-            while (false !== $lastPos = strrpos($subPath, '\\')) {
-                //提取\前的字符串
-                $subPath = substr($subPath, 0, $lastPos);
-                //添加\\
-                $search = $subPath.'\\';
-                //判断是否已经注册类命名空间
-                if (isset($this->prefixDirsPsr4[$search])) {
 
+        $first = $class[0];
+        if (isset($this->prefixLengthsPsr4[$first])) {
+            $subPath = $class;
+            while (false !== $lastPos = strrpos($subPath, '\\')) {
+                $subPath = substr($subPath, 0, $lastPos);
+                $search = $subPath.'\\';
+                if (isset($this->prefixDirsPsr4[$search])) {
                     $pathEnd = DIRECTORY_SEPARATOR . substr($logicalPathPsr4, $lastPos + 1);
                     foreach ($this->prefixDirsPsr4[$search] as $dir) {
-                        //循环查找，找到就返回
                         if (file_exists($file = $dir . $pathEnd)) {
                             return $file;
                         }

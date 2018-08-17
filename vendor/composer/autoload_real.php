@@ -6,10 +6,6 @@ class ComposerAutoloaderInit8e92ebb768426cd422e35e72aebfc49c
 {
     private static $loader;
 
-    /**
-     * 加载ClassLoader
-     * @param $class
-     */
     public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
@@ -22,36 +18,33 @@ class ComposerAutoloaderInit8e92ebb768426cd422e35e72aebfc49c
         if (null !== self::$loader) {
             return self::$loader;
         }
-        //引入ClassLoader.php
+
         spl_autoload_register(array('ComposerAutoloaderInit8e92ebb768426cd422e35e72aebfc49c', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader();
-        //取消注册
         spl_autoload_unregister(array('ComposerAutoloaderInit8e92ebb768426cd422e35e72aebfc49c', 'loadClassLoader'));
-        //判断php版本是不是大于5.6并且未定义HHVM_VERSION常量
+
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
         if ($useStaticLoader) {
-            //该文件记录了namespace + 类名与类所在文件的映射关系
             require_once __DIR__ . '/autoload_static.php';
-            //将映射关系加载到$loader里
+
             call_user_func(\Composer\Autoload\ComposerStaticInit8e92ebb768426cd422e35e72aebfc49c::getInitializer($loader));
         } else {
-            //设置单独namespace对于文件夹位置的映射关系
             $map = require __DIR__ . '/autoload_namespaces.php';
             foreach ($map as $namespace => $path) {
                 $loader->set($namespace, $path);
             }
-            //设置符合psr4命名规范的namespace对于文件夹位置的映射关系
+
             $map = require __DIR__ . '/autoload_psr4.php';
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
-            //加载类和类文件位置的映射关系
+
             $classMap = require __DIR__ . '/autoload_classmap.php';
             if ($classMap) {
                 $loader->addClassMap($classMap);
             }
         }
-        //注册自动加载类的处理方法
+
         $loader->register(true);
 
         if ($useStaticLoader) {
