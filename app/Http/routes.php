@@ -33,4 +33,5 @@ Route::any('office', 'OfficeController@index');
 Route::any('office/create', 'OfficeController@create');
 Route::any('office/setSheet', 'OfficeController@setSheet');
 Route::any('office/getExcel', 'OfficeController@getExcel');
+Route::any('compare/hms', 'CompareReportController@compare');
 
